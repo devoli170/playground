@@ -35,14 +35,31 @@ wsl -d ubuntu git clone https://gitlab.com/relief-melone/wsl-initial-setup.git /
 ```
 wsl -d ubuntu /bin/bash /mnt/s/wsl/source/wsl-initial-setup/install.sh
 ```
-> Execute the script again as the newly created user
+> Execute the script again as the newly created user and install your additional software. I disabled nodejs and ssh-server
 ```
 wsl -d ubuntu --user [your-username]
 # Inside of WSL
 sudo /bin/bash /mnt/s/wsl/source/wsl-initial-setup/install.sh
 ```
+> Restart the wsl
+```
+exit
+wsl -d ubuntu --user [your-username]
+```
+## More usefull stuff:
+> Use internal kubectl to access the cluster, instead of microk8s.kubectl
+```
+mkdir $HOME/.kube
+microk8s config > ~/.kube/config
+```
+> add bash comletion (one time only)
+```
+echo 'source <(kubectl completion bash)' >> ~/.bashrc
+echo 'source <(helm completion bash)' >> ~/.bashrc
+source ~/.bashrc
+```
 
-
+With this you have a running cluster inside your WSL :). Have fun!
 
 
 [1]: https://gitlab.com/relief-melone/wsl-initial-setup/-/tree/master

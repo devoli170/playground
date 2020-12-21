@@ -1,4 +1,2 @@
-cd $HOME
-mkdir .kube
-cd .kube
-microk8s config > config
+mkdir $HOME/.kube
+microk8s config > ~/.kube/config
