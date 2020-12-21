@@ -21,14 +21,15 @@ In the end I tried to port forward the ingress nodeport in my router. Sadly this
 Doing some IPv6 stuff will be  
 
 # December 21th
-The WSL setup is not yet reproducible and some configs are lost when i close the bash, so I postpone the IPv6 stuff and make the cluster build somewhat reproducible with step by step guide in this repo. Check the directory ops\wls and ops\cluster. 
+The WSL setup is not yet reproducible and some configs are lost when i close the bash, so I postpone the IPv6 stuff and make the cluster build somewhat reproducible with step by step guide in this repo. Check the directory ops\wls and ops\cluster. Must watch: [This video][11] explaining loadbalancer and ingress-controller in cloud and on prem. I will check k3s with klipper lb and traeffik ignress controller on my raspi 3b. If this is a viable solution, I'll scrap the WSL stuff.
+
 
 ## Today I learned...
 - Multiple Subsystems:
     - Docker enginge for Docker desktop. 
     - [Deploying VSCode in WSL][10]
     - The default one from appstore
-
+- service of type load balancer spinns up an actuap load balancer in cloud environments. this works automatically in the cloud. for bare metal there are options like metallb (also available as microk8s addon) or Klipper.
 
 
 
@@ -43,3 +44,4 @@ The WSL setup is not yet reproducible and some configs are lost when i close the
 [8]: https://www.internetsociety.org/resources/deploy360/2013/making-content-available-over-ipv6/#:~:text=IPv6%2Dto%2DIPv4%20proxy,the%20network%20can%20support%20IPv6.
 [9]: https://stephank.nl/p/2017-06-05-ipv6-on-production-docker.html
 [10]: https://code.visualstudio.com/docs/remote/wsl
+[11]: https://www.youtube.com/watch?v=Ytc24Y0YrXE&ab_channel=AdrianGoins

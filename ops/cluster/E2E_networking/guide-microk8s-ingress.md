@@ -1,18 +1,41 @@
+# Exposing sercives in the cluster
+## Pre-reqs
+> Deploy the microk8s nginx based ingress controller and dns.
+```
 microk8s enable ingress
-
-kubectl edit -n ingress cm nginx-ingress-tcp-microk8s-conf add:  
+microk8s enable dns
+microk8s enable metallb
 ```
+## Owned by microservice
+> The container/pod with webserver. Here a basic nginx
+```
+kubectl run nginx --image nginx
+kubectl expose pod nginx --port 80 --type LoadBalancer
+
+# validate:
+kubectl get svc  | grep nginx
+curl [cluster-ip]:80
+```
+
+> Adding an ingress rule with url-routing / to nginx-plain-http service.
+```
+kubectl apply -f resources/app-ingress-rule.yaml
+```
+
+## Owned by cluster provider
+ The ingress-controller itself has to be configured now to enable the passthrough
+```
+kubectl edit cm -n ingress nginx-ingress-tcp-microk8s-conf
+#add:
 data:
-  "443": default/home:443
+  "80": default/:80
+```
+```
+kubectl expose -n ingress pod nginx-ingress-microk8s-controller-[hash] --port=80 --target-port=80
+
+kubectl edit svc -n nginx-ingress-microk8s-controller-<hash>
 ```
 
-kubectl apply -f resources
-
-kubectl expose -n ingress pod nginx-ingress-microk8s-controller-ssm6k --port=80 --target-port=80
-
-kubectl edit svc -n nginx-ingress-microk8s-controller-<hash>  
-
-can't remember what I changed and rollout history is not supported on service :( but this is needed:
 ```
   ports:
   - nodePort: 30001
