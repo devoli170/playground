@@ -1,6 +1,4 @@
 This is basically [this setup][1] tailored to my system.  
-## Disclaimer
- I did not check the scripts for any malicios parts, which is pretty bad regarding the level of control the install script has. E.g. the host drives via mounts... :(
 
 ## Improtant pre-requisite
 
@@ -19,7 +17,7 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 
 > After the reboot download this msi with an kernel update and run the .msi: https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
 
-> Open another terminal. This time you don't need to run as admin. Then set WSL 2 as default
+> Open another terminal. This time you don't have to run as admin. Then set WSL version 2 as default
 ```
 wsl --set-default-version 2
 ```
@@ -84,19 +82,18 @@ sudo systemctl restart snapd; echo $?
 
 # expected output is 0. If not, try wsl --shutdown -d ubuntu. See [here][4]. If this does not help, try from scratch.
 ```
-> Execute the script again as the newly created user and install your additional software. I disabled nodejs and ssh-server.
+> Stay inside the bash where you already confirmed, that systemd is running and execute the script again.  
+
+> In the next stage additional you can choose more stuff to install. There will be 2 prompts. from the first i select all, but i remove nodejs and ssh-server from the second. 
 ```
 # Inside of WSL
 ### copy pasta for S drive  ###
-wsl -d ubuntu --user ops sudo /bin/bash /mnt/s/wsl/source/wsl-initial-setup/install.sh
+sudo /bin/bash /mnt/s/wsl/source/wsl-initial-setup/install.sh
 
 ### copy pasta for C drive  ###
-wsl -d ubuntu --user ops sudo /bin/bash /mnt/c/wsl/source/wsl-initial-setup/install.sh
+sudo /bin/bash /mnt/c/wsl/source/wsl-initial-setup/install.sh
 ```
-> Starting the wsl bash
-```
-wsl -d ubuntu --user ops
-```
+
 ## More usefull stuff:
 > Use internal kubectl to access the cluster, instead of microk8s.kubectl
 ```
