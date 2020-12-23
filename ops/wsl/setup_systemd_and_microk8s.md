@@ -99,6 +99,9 @@ sudo /bin/bash /mnt/c/wsl/source/wsl-initial-setup/install.sh
 ```
 mkdir $HOME/.kube
 microk8s config > ~/.kube/config
+
+# remove group-readable warning when sourcing .bashrc
+chmod 600 ~/.kube/config
 ```
 > add bash comletion (one time only)
 ```
