@@ -31,6 +31,11 @@ The WSL setup is not yet reproducible and some configs are lost when i close the
     - The default one from appstore
 - service of type load balancer spinns up an actuap load balancer in cloud environments. this works automatically in the cloud. for bare metal there are options like metallb (also available as microk8s addon) or Klipper.
 
+# December 23th
+I tested the microk8s within wsl docs with a fresh laptop and extended some stuff. K3s in Pi was not finished :(. Most guides recommend a cluster of 3 pis. So naturally I sent some hours crunching [mini-pc datases][12] and stuff. The 2020 hardware looks pretty cool. I'm really missing a linux native home-server up to this point.  
+
+## Today I learned...
+- github official has it's own marketplace... because everything has it's own marketplace nowadys i guess :D I might heck out some of the options, but from the first look it seems like a lock-in. 
 
 
 
@@ -45,3 +50,4 @@ The WSL setup is not yet reproducible and some configs are lost when i close the
 [9]: https://stephank.nl/p/2017-06-05-ipv6-on-production-docker.html
 [10]: https://code.visualstudio.com/docs/remote/wsl
 [11]: https://www.youtube.com/watch?v=Ytc24Y0YrXE&ab_channel=AdrianGoins
+[12]: https://geizhals.eu/?cat=sysdiv&xf=450_Nettop
