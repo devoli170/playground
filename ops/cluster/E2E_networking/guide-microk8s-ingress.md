@@ -1,65 +1,41 @@
-# Exposing sercives in the cluster
+## Challenge
+It's good practice to expose each pod via service of type clusterId. This enables internal cluster communication for internal interfaces. To enable external requests it is recommended to create an ingress rule which routes a url path to the service. Additionally you'll need any ingress controller and a mechanism to expose the ingtess-controller externally. The easiest way is to expose the ingress controller with a service type load-balancer. Be careful, in cloud environments, this will thell the cluster provides to spin up an actual load-balancer which comes with a fixed cost. But having the ingreess cotroller, which does further routing, you'll only need one loadbalancer. 
+On bare metal, you won't have this automatism per default. You have to install a lb provisioner like metallb or klipper-lb.
+
+In this guide i'll document all steps needed to expose a simple nginx container all the way out of the cluster. (plain http only)
+
 ## Pre-reqs
-> Deploy the microk8s nginx based ingress controller and dns.
+
 ```
 microk8s enable ingress
 microk8s enable dns
-microk8s enable metallb
+microk8s enable metallb      # enter an ip range which can be given to load balancers.
 ```
 ## Owned by microservice
 > The container/pod with webserver. Here a basic nginx
 ```
 kubectl run nginx --image nginx
-kubectl expose pod nginx --port 80 --type LoadBalancer
-
-# validate:
-kubectl get svc  | grep nginx
-curl [cluster-ip]:80
+kubectl expose pod nginx --port 80 --type ClusterIP
 ```
 
 > Adding an ingress rule with url-routing / to nginx-plain-http service.
 ```
-kubectl apply -f resources/app-ingress-rule.yaml
+kubectl create ingress nginx --rule=/=nginx:80
 ```
 
-## Owned by cluster provider
- The ingress-controller itself has to be configured now to enable the passthrough
+## Owned by ?
 ```
-kubectl edit cm -n ingress nginx-ingress-tcp-microk8s-conf
-#add:
-data:
-  "80": default/:80
-```
-```
-kubectl expose -n ingress pod nginx-ingress-microk8s-controller-[hash] --port=80 --target-port=80
+The microk8s nginx ingress comes as daemonset. You cannot expose it, so you'll have to use the pod.
+
+# Here is the magic done which spins up the service plus the load balancer (either in the cloud or by metallb)
+
+kubectl expose -n ingress pod nginx-ingress-microk8s-controller-<hash> --port=80 --target-port=80 --type LoadBalancer 
 
 kubectl edit svc -n nginx-ingress-microk8s-controller-<hash>
-```
 
-```
-  ports:
-  - nodePort: 30001
-    port: 80
-    protocol: TCP
-    targetPort: 80
-...
-  type: NodePort
-```
+if metallb did it's job correctly, you'll see an EXTERNAL-IP on the ingress service:
 
-Run this and check if there are actual endpoints for the app service and ingress service:
-```
-NAME                                      ENDPOINTS        AGE
-plain-svc                                 10.1.202.83:80   18h
-nginx-ingress-microk8s-controller-ssm6k   10.1.202.85:80   17h
-```
-
-Run this to check service wiring:
-```
 kubectl get svc -n ingress
-NAME                                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-plain-svc                                 ClusterIP   10.152.183.218   <none>        80/TCP         18h
-nginx-ingress-microk8s-controller-ssm6k   NodePort    10.152.183.89    <none>        80:30001/TCP   17h
+NAME                                      TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)        AGE
+nginx-ingress-microk8s-controller-d5h47   LoadBalancer   10.152.183.133   10.64.140.43   80:31901/TCP   15s
 ```
-
-Access the serivce with:
-localhost:30001  -> nodeport svc -> ingress (Level 7 load balancer) -> matching url path / to plain-svc -> svc to pod to container. 
