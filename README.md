@@ -12,7 +12,7 @@ Reading order:
 playground/
 ├── LICENSE
 ├── README.md
-├── journal                                    <- an actual journal where i write down enlightments, learnings, etc.
+├── journal                                    <- literally a journal where i write down enlightments, learnings, etc. for future references
 │   └── december-2020.md
 └── ops
     ├── cluster
