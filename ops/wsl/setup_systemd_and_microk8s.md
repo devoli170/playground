@@ -113,6 +113,31 @@ source ~/.bashrc
 With this you have a running cluster inside your WSL :). Have fun!
 
 
+## Less Operations:
+This is a good moment to create a snapshot of the distro using the --export argument
+
+```
+wsl --export ubuntu microk8s_ubuntu_wsl.tar
+```
+Tis will create a ~4GB big tar file which can be re-imported as other distro, or to restore the original distro. With this you can skip all the previous steps as long as you keep the TAR file
+
+```
+mkdir c:\wsl\distro\cluster2
+wsl --import cluster2 c:\wsl\distro\cluster microk8s_ubuntu_wsl.tar
+wsl -d cluster2 -u ops
+# let it run for a while. This will put the machine under heavy load!
+logout
+wsl --shutdown cluster2
+wsl -d cluster2 -u ops
+# Also: let it run for a while. This will put the machine under heavy load!
+# kubectl is broken initially, but microk8s.kubectl works
+microk8s.kubectl get all -A
+```
+
+
+
+
+
 [1]: https://gitlab.com/relief-melone/wsl-initial-setup/-/tree/master
 [2]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 [3]: https://docs.microsoft.com/en-us/windows/wsl/install-win10#requirements
