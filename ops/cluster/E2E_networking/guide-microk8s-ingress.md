@@ -11,7 +11,7 @@ microk8s enable ingress
 microk8s enable dns
 microk8s enable metallb      # enter an ip range which can be given to load balancers.
 ```
-## Owned by microservice
+## Exposing the microservice
 > The container/pod with webserver. Here a basic nginx
 ```
 kubectl run nginx --image nginx
@@ -23,7 +23,7 @@ kubectl expose pod nginx --port 80 --type ClusterIP
 kubectl create ingress nginx --rule=/=nginx:80
 ```
 
-## Owned by ?
+## Exposing the ingress controller
 ```
 The microk8s nginx ingress comes as daemonset. You cannot expose it, so you'll have to use the pod.
 
@@ -32,9 +32,11 @@ The microk8s nginx ingress comes as daemonset. You cannot expose it, so you'll h
 kubectl expose -n ingress pod nginx-ingress-microk8s-controller-<hash> --port=80 --target-port=80 --type LoadBalancer 
 
 kubectl edit svc -n nginx-ingress-microk8s-controller-<hash>
+```
 
-if metallb did it's job correctly, you'll see an EXTERNAL-IP on the ingress service:
+> if metallb did it's job correctly, you'll see an EXTERNAL-IP on the ingress service:
 
+```
 kubectl get svc -n ingress
 NAME                                      TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)        AGE
 nginx-ingress-microk8s-controller-d5h47   LoadBalancer   10.152.183.133   10.64.140.43   80:31901/TCP   15s
