@@ -36,6 +36,8 @@ I tested the microk8s within wsl docs with a fresh laptop and extended some stuf
 
 ## Today I learned...
 - github official has it's own marketplace... because everything has it's own marketplace nowadys i guess :D I might heck out some of the options, but from the first look it seems like a lock-in. 
+- skaffold looks nice to speed things up. But right now I don't need more yaml engineering in my life. Hmmm... will reconsider once i'll create services. 
+- [Oh][13] ... ah yes "We can solve any problem by introducing an extra level of indirection." -David Wheeler.  -> Like another layer of abstraction, on more reverse-proxy or yaml tool. 
 
 
 
@@ -51,3 +53,4 @@ I tested the microk8s within wsl docs with a fresh laptop and extended some stuf
 [10]: https://code.visualstudio.com/docs/remote/wsl
 [11]: https://www.youtube.com/watch?v=Ytc24Y0YrXE&ab_channel=AdrianGoins
 [12]: https://geizhals.eu/?cat=sysdiv&xf=450_Nettop
+[13]: https://www.youtube.com/watch?v=e0AlqN8xPkk&ab_channel=SweetcodeHQ

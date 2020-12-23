@@ -55,7 +55,7 @@ wsl --import ubuntu s:\wsl\distro\ubuntu s:\wsl\distro\focal-server.amd64-wsl.ta
 wsl --import ubuntu c:\wsl\distro\ubuntu c:\wsl\distro\focal-server.amd64-wsl.tar.gz
 ```
 
-## Ubuntu setup
+## Infra and Cluster setup
 > Clone the repo inside wsl to work around windows CR
 ```
 ### copy pasta for S drive  ###
@@ -71,6 +71,18 @@ wsl -d ubuntu /bin/bash /mnt/s/wsl/source/wsl-initial-setup/install.sh
 
 ### copy pasta for C drive  ###
 wsl -d ubuntu /bin/bash /mnt/c/wsl/source/wsl-initial-setup/install.sh
+```
+> !!!! restart the ubuntu distro with - If you don't systemd will not run properly. You'll see connection resets from D-Bus and snap not working properly !!!!
+```
+wsl --shutdown -d ubuntu
+
+### Quick validation before you run the next install stage:
+wsl -d ubuntu -u ops
+
+#inside wsl run:
+sudo systemctl restart snapd; echo $?
+
+# expected output is 0. If not, try wsl --shutdown -d ubuntu. See [here][4]. If this does not help, try from scratch.
 ```
 > Execute the script again as the newly created user and install your additional software. I disabled nodejs and ssh-server.
 ```
@@ -100,10 +112,8 @@ source ~/.bashrc
 
 With this you have a running cluster inside your WSL :). Have fun!
 
--> TODO check if image file in ubuntu folder is usable as snapshot.
-
-
 
 [1]: https://gitlab.com/relief-melone/wsl-initial-setup/-/tree/master
 [2]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 [3]: https://docs.microsoft.com/en-us/windows/wsl/install-win10#requirements
+[4]: https://superuser.com/a/1556484/1254574
