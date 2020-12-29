@@ -122,16 +122,18 @@ wsl --export ubuntu microk8s_ubuntu_wsl.tar
 Tis will create a ~4GB big tar file which can be re-imported as other distro, or to restore the original distro. With this you can skip all the previous steps as long as you keep the TAR file
 
 ```
-mkdir c:\wsl\distro\cluster2
-wsl --import cluster2 c:\wsl\distro\cluster microk8s_ubuntu_wsl.tar
-wsl -d cluster2 -u ops
-# let it run for a while. This will put the machine under heavy load!
-logout
-wsl --shutdown cluster2
-wsl -d cluster2 -u ops
-# Also: let it run for a while. This will put the machine under heavy load!
-# kubectl is broken initially, but microk8s.kubectl works
-microk8s.kubectl get all -A
+### copy pasta for S drive  ###
+mkdir s:\wsl\distro\cluster
+wsl --import cluster s:\wsl\distro\cluster microk8s_ubuntu_wsl.tar
+wsl -d cluster -u ops
+
+### copy pasta for C drive  ###
+mkdir c:\wsl\distro\cluster
+wsl --import cluster c:\wsl\distro\cluster microk8s_ubuntu_wsl.tar
+wsl -d cluster -u ops
+
+# Fixing kubectl
+microk8s config > .kube/config
 ```
 
 
