@@ -7,6 +7,7 @@ In this guide i'll document all steps needed to expose a simple nginx container 
 ## Pre-reqs
 
 ```
+sudo apt install net-tools
 microk8s enable ingress
 microk8s enable dns
 microk8s enable metallb      # enter an ip range which can be given to load balancers.
@@ -29,9 +30,7 @@ The microk8s nginx ingress comes as daemonset. You cannot expose it, so you'll h
 
 # Here is the magic done which spins up the service plus the load balancer (either in the cloud or by metallb)
 
-kubectl expose -n ingress pod nginx-ingress-microk8s-controller-<hash> --port=80 --target-port=80 --type LoadBalancer 
-
-kubectl edit svc -n nginx-ingress-microk8s-controller-<hash>
+kubectl expose -n ingress pod nginx-ingress-microk8s-controller-<hash> --port=80 --target-port=80 --type LoadBalancer
 ```
 
 > if metallb did it's job correctly, you'll see an EXTERNAL-IP on the ingress service:

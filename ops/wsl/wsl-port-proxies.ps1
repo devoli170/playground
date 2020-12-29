@@ -18,7 +18,8 @@ $vmIP = wsl -d $distro bash -c "ifconfig eth0 | grep 'inet ' | awk '{print \`$2`
 echo "# Forwarding from WSL distro: $distro with IP: $vmIP"
 echo "----------------------------------------------------"
 if( !$vmIP ){
-  echo "Ip address of the distro $distro not found. Exiting...";
+  Write-Host "No virtual eth0 interface found in distro $distro. Please check if 'ifconfig' is installed. Exiting on keypress..."
+  $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
   exit;
 }
 $internalPorts = wsl -d $distro -u ops bash -c "kubectl get svc -A -o yaml | grep nodePort |  awk '{print \`$3`}'| head -c -1 | tr '\n' ','"
@@ -32,4 +33,5 @@ foreach ($port in $portsArray) {
   netsh interface portproxy add v4tov4 listenport=$listenPort listenaddress=0.0.0.0 connectport=$port connectaddress=$vmIP
 }
 netsh interface portproxy show v4tov4
-Start-Sleep -s 10
+Write-Host "Exiting on keypress..."
+$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
