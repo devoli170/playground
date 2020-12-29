@@ -40,3 +40,17 @@ kubectl get svc -n ingress
 NAME                                      TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)        AGE
 nginx-ingress-microk8s-controller-d5h47   LoadBalancer   10.152.183.133   10.64.140.43   80:31901/TCP   15s
 ```
+
+Now you should be able to reach the nginx homepage on your host system under: 
+```
+<ip of virtual eth0>:<NodePort of loadbalancer service>
+```
+
+The virtual interface if WSL2 is not reachable from your home network. You have to create a proxy on you host system 
+```
+netsh interface portproxy add v4tov4 listenport=[some port] listenaddress=0.0.0.0 connectport=[Node Port] connectaddress=[wsl eth0]
+```
+
+> I created a script that exposes all nodeports on the host's netadress with starting with port 17000. Check wsl-port-proxies.ps1.  
+
+> Keep in mind to create exceptions in you firewall. E.g. an rule for port range 17000-17005 in Windows Defender Firewall.
