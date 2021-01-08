@@ -39,6 +39,11 @@ I tested the microk8s within wsl docs with a fresh laptop and extended some stuf
 - skaffold looks nice to speed things up. But right now I don't need more yaml engineering in my life. Hmmm... will reconsider once i'll create services. 
 - [Oh][13] ... ah yes "We can solve any problem by introducing an extra level of indirection." -David Wheeler.  -> Like another layer of abstraction, on more reverse-proxy or yaml tool. 
 
+# December 24th - 31th
+
+Not much going on over the holidays. I cross tested the wsl image from one machine in another and it worked on first try. It is pretty usefull so I copied the 4GB tar file to my NFS :)
+I did play around with Prometheus on my raspi which i originally intended to use for k3s. Additionally i wrote a small GPIO exporter in golang using these deps: 
+[prometheus][14] and [go-rpio/v4][15]. It's in a private repo as it's using some bad hardcoded stuff for now.
 
 
 [1]: https://www.youtube.com/watch?v=RyXL1zOa8Bw&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D
@@ -54,3 +59,5 @@ I tested the microk8s within wsl docs with a fresh laptop and extended some stuf
 [11]: https://www.youtube.com/watch?v=Ytc24Y0YrXE&ab_channel=AdrianGoins
 [12]: https://geizhals.eu/?cat=sysdiv&xf=450_Nettop
 [13]: https://www.youtube.com/watch?v=e0AlqN8xPkk&ab_channel=SweetcodeHQ
+[14]: https://github.com/prometheus/client_golang
+[15]: https://github.com/stianeikeland/go-rpio/tree/v4.4.0
