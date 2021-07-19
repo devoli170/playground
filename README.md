@@ -12,8 +12,6 @@ Reading order:
 playground/
 ├── LICENSE
 ├── README.md
-├── journal                                    <- literally a journal where i write down enlightments, learnings, etc. for future references
-│   └── december-2020.md
 └── ops
     ├── cluster
     │   ├── E2E_networking
